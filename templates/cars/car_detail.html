@@ -1,0 +1,46 @@
+{% extends 'cars/base.html' %}
+
+{% block title %}{{ car.make }} {{ car.model }} - Подробности{% endblock %}
+
+{% block content %}
+
+    <div class="car-detail">
+        <h2>{{ car.make }} {{ car.model }} ({{ car.year }})</h2>
+
+        <div class="car-info">
+            <p><strong>Описание:</strong></p>
+            <p class="car-description">{{ car.description }}</p>
+        </div>
+
+
+        <div class="car-actions">
+            {% if user.is_authenticated and car.owner == user %}
+                <p><a href="#">Редактировать</a></p>
+                <a href="{% url 'car_delete' car.id %}">Удалить</a>
+            {% endif %}
+            <p><a href="{% url 'index' %}">Назад к списку</a></p>
+        </div>
+        {% if user.is_authenticated %}
+            <h3>Добавить комментарий</h3>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Добавить</button>
+            </form>
+        {% endif %}
+    </div>
+    <div class="car-comments">
+        <h3>Комментарии</h3>
+        <ul class="comment-list">
+            {% for comment in comments %}
+                <li>
+                    <p><strong>{{ comment.author.username }}:</strong> {{ comment.content }}</p>
+                    <p><em>{{ comment.created_at|date:"d M Y H:i" }}</em></p>
+                </li>
+            {% empty %}
+                <li>Нет комментариев.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endblock %}

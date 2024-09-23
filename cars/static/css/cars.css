@@ -82,3 +82,12 @@ button:hover {
     white-space: normal;
     text-overflow: ellipsis;
 }
+.car-detail {
+    padding: 20px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 800px; /* Увеличиваем ширину карточки */
+    margin: 20px auto; /* Центрируем карточку */
+}

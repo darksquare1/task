@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse_lazy
 
 
 class Car(models.Model):
@@ -14,6 +15,9 @@ class Car(models.Model):
     class Meta:
         ordering = ['-created_at']
         indexes = [models.Index(fields=['-created_at'])]
+
+    def get_absolute_url(self):
+        return reverse_lazy('car_detail', args=[self.pk])
 
 
 class Comment(models.Model):

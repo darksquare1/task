@@ -3,7 +3,6 @@
 {% block title %}Список автомобилей{% endblock %}
 
 {% block content %}
-
 <div class="car-list">
     {% for car in cars %}
         <div class="car-card">
@@ -11,13 +10,11 @@
             <p>Модель: {{ car.model|truncatechars:25}}</p>
             <p>Год выпуска: {{ car.year|truncatechars:35}}</p>
             <p class="car-description">Описание: {{ car.description}}</p>
-            <p><a href="#">Подробнее</a></p>
+            <p><a href="{{ car.get_absolute_url }}">Подробнее</a></p>
             {% if user.is_authenticated and car.owner == user %}
                 <p><a href="#">Редактировать</a></p>
-                <form action="#" method="post" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit">Удалить</button>
-                </form>
+                <a href="{% url 'car_delete' car.id %}" >Удалить</a>
+                    
             {% endif %}
         
         </div>
