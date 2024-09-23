@@ -8,15 +8,20 @@
         <div class="car-card">
             <p>Марка: {{ car.make|truncatechars:25}}</p>
             <p>Модель: {{ car.model|truncatechars:25}}</p>
-            <p>Год выпуска: {{ car.year|truncatechars:35}}</p>
+            <p>Год выпуска: {% if car.year %}
+                {{ car.year|truncatechars:35}}
+                {% else %}
+                Не указано
+                {% endif %}
+            </p>
             <p class="car-description">Описание: {{ car.description}}</p>
             <p><a href="{{ car.get_absolute_url }}">Подробнее</a></p>
             {% if user.is_authenticated and car.owner == user %}
                 <p><a href="#">Редактировать</a></p>
                 <a href="{% url 'car_delete' car.id %}" >Удалить</a>
-                    
+
             {% endif %}
-        
+
         </div>
     {% endfor %}
 </div>

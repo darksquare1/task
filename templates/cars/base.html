@@ -11,9 +11,9 @@
 <header class="site-header">
     <nav class="navigation">
         <ul class="nav">
-            <li><a href="#">Главная</a></li>
+            <li><a href="/">Главная</a></li>
             {% if user.is_authenticated %}
-                <li><a href="#">Добавить автомобиль</a></li>
+                <li><a href="{% url 'car_create' %}">Добавить автомобиль</a></li>
                 <li><a href="#">Выйти</a></li>
             {% else %}
                 <li><a href="#">Войти</a></li>

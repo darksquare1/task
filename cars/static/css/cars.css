@@ -91,3 +91,7 @@ button:hover {
     max-width: 800px; /* Увеличиваем ширину карточки */
     margin: 20px auto; /* Центрируем карточку */
 }
+
+form.add-car{
+    margin-left: 2vw
+}

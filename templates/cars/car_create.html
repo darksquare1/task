@@ -1,0 +1,9 @@
+{% extends 'cars/base.html' %}
+{% block title %}Добавление записи{% endblock %}
+{% block content %}
+    <form method="POST" action="" class="add-car">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Создать</button>
+    </form>
+{% endblock %}
