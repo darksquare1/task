@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class Car(models.Model):
     make = models.CharField(max_length=100, verbose_name='Марка')
     model = models.CharField(max_length=100, verbose_name='Модель')
-    year = models.PositiveIntegerField(verbose_name='Год выпуска')
+    year = models.PositiveIntegerField(verbose_name='Год выпуска', blank=True, null=True, default='Не указано')
     description = models.TextField(verbose_name='Описание')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
