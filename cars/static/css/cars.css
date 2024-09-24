@@ -114,7 +114,7 @@ form input {
   margin-bottom: 15px;
 }
 
-form input[type=text] {
+form input[type=text], input[type=password] {
   display: block;
   height: 32px;
   padding: 6px 16px;
@@ -126,4 +126,7 @@ form input[type=text] {
 form label {
   color: #777;
   font-size: 0.8em;
+}
+form.logout{
+    all: unset;
 }

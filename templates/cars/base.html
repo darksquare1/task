@@ -14,10 +14,15 @@
             <li><a href="/">Главная</a></li>
             {% if user.is_authenticated %}
                 <li><a href="{% url 'car_create' %}">Добавить автомобиль</a></li>
-                <li><a href="#">Выйти</a></li>
+                <li>
+                    <form class="logout" action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <a href="#" onclick="parentNode.submit();">Log Out</a>
+                    </form>
+                </li>
             {% else %}
-                <li><a href="#">Войти</a></li>
-                <li><a href="#">Регистрация</a></li>
+                <li><a href="{% url 'login' %}">Войти</a></li>
+                <li><a href="{% url 'signup' %}">Регистрация</a></li>
             {% endif %}
         </ul>
     </nav>

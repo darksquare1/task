@@ -9,13 +9,13 @@ from cars.forms import CommentForm, CarAddForm
 from cars.models import Car, Comment
 
 
-class CarListView(ListView):
+class CarListView(ListView): # класс для отображения всех записей
     model = Car
     context_object_name = 'cars'
     template_name = 'cars/car_list.html'
 
 
-class CarDetailView(DetailView):
+class CarDetailView(DetailView): # класс для отображения конкретной записи
     model = Car
     template_name = 'cars/car_detail.html'
     context_object_name = 'car'
@@ -44,7 +44,7 @@ class CarDetailView(DetailView):
         return super().get(request, *args, **kwargs)  # вызываем метод базового класса для отображения
 
 
-class CarDeleteView(DeleteView):
+class CarDeleteView(DeleteView): # класс для удаления записи
     model = Car
     success_url = reverse_lazy('index')
     template_name = 'cars/car_confirm_delete.html'
@@ -55,7 +55,7 @@ class CarDeleteView(DeleteView):
         return super().dispatch(request, *args, **kwargs)
 
 
-class CarCreateView(LoginRequiredMixin, CreateView):
+class CarCreateView(LoginRequiredMixin, CreateView): # класс для создания записи
     form_class = CarAddForm
     template_name = 'cars/car_create.html'
     success_url = reverse_lazy('index')

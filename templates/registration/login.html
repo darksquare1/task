@@ -1,0 +1,10 @@
+{% extends 'cars/base.html' %}
+{% block title %}Авторизация{% endblock %}
+{% block content %}
+    <h1 style="text-align: center"></h1>
+    <form method="POST" action="">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Войти</button>
+    </form>
+{% endblock %}
