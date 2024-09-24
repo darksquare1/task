@@ -92,6 +92,38 @@ button:hover {
     margin: 20px auto; /* Центрируем карточку */
 }
 
-form.add-car{
-    margin-left: 2vw
+form {
+  width: 280px;
+  margin: 0 auto;
+  background-color: #fcfcfc;
+  padding: 20px 50px 40px;
+  box-shadow: 1px 4px 10px 1px #aaa;
+  font-family: sans-serif;
+}
+
+form * {
+    box-sizing: border-box;
+}
+
+form h2{
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+form input {
+  margin-bottom: 15px;
+}
+
+form input[type=text] {
+  display: block;
+  height: 32px;
+  padding: 6px 16px;
+  width: 100%;
+  border: none;
+  background-color: #f3f3f3;
+}
+
+form label {
+  color: #777;
+  font-size: 0.8em;
 }

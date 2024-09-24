@@ -17,7 +17,7 @@
             <p class="car-description">Описание: {{ car.description}}</p>
             <p><a href="{{ car.get_absolute_url }}">Подробнее</a></p>
             {% if user.is_authenticated and car.owner == user %}
-                <p><a href="#">Редактировать</a></p>
+                <p><a href="{% url 'car_edit' car.id %}">Редактировать</a></p>
                 <a href="{% url 'car_delete' car.id %}" >Удалить</a>
 
             {% endif %}

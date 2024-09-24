@@ -1,6 +1,7 @@
 {% extends 'cars/base.html' %}
 {% block title %}Добавление записи{% endblock %}
 {% block content %}
+    <h1 style="text-align: center">Добавление записи</h1>
     <form method="POST" action="" class="add-car">
         {% csrf_token %}
         {{ form.as_p }}

@@ -1,8 +1,9 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseNotAllowed
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, DeleteView, CreateView
+from django.views.generic import ListView, DetailView, DeleteView, CreateView, UpdateView
 
 from cars.forms import CommentForm, CarAddForm
 from cars.models import Car, Comment
@@ -28,13 +29,14 @@ class CarDetailView(DetailView):
     def post(self, request, *args, **kwargs):
         form = CommentForm(data=request.POST)
         self.object = self.get_object()
-        if form.is_valid():
+        if form.is_valid() and request.user.is_authenticated:  # смотрим чтобы форма была валидна и пользователь был залогинен
             comment = form.save(commit=False)
             comment.car = self.object  # устанавливаем машину, к которой принадлежит комментарий
             comment.author = self.request.user  # устанавливаем пользователя, который создал комментарий
             comment.save()
         self.extra_context = {'form': form}  # добавляем форму в контекст
         return self.render_to_response(self.get_context_data())  # вызываем метод, который рендерит шаблон
+
 
     def get(self, request, *args, **kwargs):
         initial = {}
@@ -47,16 +49,10 @@ class CarDeleteView(DeleteView):
     success_url = reverse_lazy('index')
     template_name = 'cars/car_confirm_delete.html'
 
-    def delete(self, request, *args, **kwargs):
-        car = self.get_object()  # получаем объект машины
-        if car.owner == request.user:  # смотрим, чтобы удалять мог только тот, кто создал запись
-            messages.success(request,
-                             "Автомобиль успешно удалён.")  # добавляем сообщения которые можно использовать на фронте
-            return super().delete(request, *args, **kwargs)  # вызываем метод базового класса для удаления
-        else:
-            messages.error(request,
-                           "У вас нет прав на удаление этого автомобиля.")  # добавляем сообщения которые можно использовать на фронте
-            return redirect('index')
+    def dispatch(self, request, *args, **kwargs):
+        if self.get_object().owner != request.user:  # проверка, что доступ запрашивает владелец записи
+            return HttpResponseNotAllowed('Вы не владелец данной записи')
+        return super().dispatch(request, *args, **kwargs)
 
 
 class CarCreateView(LoginRequiredMixin, CreateView):
@@ -64,7 +60,18 @@ class CarCreateView(LoginRequiredMixin, CreateView):
     template_name = 'cars/car_create.html'
     success_url = reverse_lazy('index')
 
-    def form_valid(self, form): #
-        form.instance.owner = self.request.user # присваиваем создателя объекту машины
-        return super().form_valid(form) # вызываем базовый метод класса
+    def form_valid(self, form):  #
+        form.instance.owner = self.request.user  # присваиваем создателя объекту машины
+        return super().form_valid(form)  # вызываем базовый метод класса
 
+
+class CarUpdateView(UpdateView):  # класс для обновления записи
+    model = Car
+    fields = ['make', 'model', 'year', 'description']
+    success_url = reverse_lazy('index')
+    template_name = 'cars/car_update.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.get_object().owner != request.user: # проверка, что доступ запрашивает владелец записи
+            return HttpResponseNotAllowed('Вы не владелец данной записи')
+        return super().dispatch(request, *args, **kwargs)

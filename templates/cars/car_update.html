@@ -1,0 +1,10 @@
+{% extends 'cars/base.html' %}
+{% block title %}Редактирование записи{% endblock %}
+{% block content %}
+    <h1 style="text-align: center">Обновление записи</h1>
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{ form.as_div }}
+        <button type="submit">Обновить</button>
+    </form>
+{% endblock %}
