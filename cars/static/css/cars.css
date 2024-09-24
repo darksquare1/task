@@ -130,3 +130,8 @@ form label {
 form.logout{
     all: unset;
 }
+
+div.signup-errors{
+    display: flex;
+    justify-content: center;
+}

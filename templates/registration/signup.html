@@ -3,8 +3,16 @@
 {% block content %}
     <h1 style="text-align: center"></h1>
     <form method="POST" action="">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Зарегистрироваться</button>
+        {% csrf_token %}
+        {% for field in form %}
+            <label id="{{ field.id_for_label }}">{{ field.label }}</label>
+            <p>{{ field }}</p>
+        {% endfor %}
+        <button type="submit">Зарегистрироваться</button>
     </form>
+    {% if form.errors %}
+    <div class="signup-errors">
+        {{ form.errors }}
+    </div>
+{% endif %}
 {% endblock %}
