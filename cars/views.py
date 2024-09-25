@@ -9,13 +9,19 @@ from cars.forms import CommentForm, CarAddForm
 from cars.models import Car, Comment
 
 
-class CarListView(ListView): # класс для отображения всех записей
+class CarListView(ListView):
+    """
+    Класс для отображения всех записей
+    """
     model = Car
     context_object_name = 'cars'
     template_name = 'cars/car_list.html'
 
 
-class CarDetailView(DetailView): # класс для отображения конкретной записи
+class CarDetailView(DetailView):
+    """
+    Класс для отображения конкретной записи, а также для добавления и отображения комментариев к ней
+    """
     model = Car
     template_name = 'cars/car_detail.html'
     context_object_name = 'car'
@@ -44,7 +50,10 @@ class CarDetailView(DetailView): # класс для отображения ко
         return super().get(request, *args, **kwargs)  # вызываем метод базового класса для отображения
 
 
-class CarDeleteView(DeleteView): # класс для удаления записи
+class CarDeleteView(DeleteView):
+    """
+    Класс для удаления записи
+    """
     model = Car
     success_url = reverse_lazy('index')
     template_name = 'cars/car_confirm_delete.html'
@@ -55,7 +64,10 @@ class CarDeleteView(DeleteView): # класс для удаления запис
         return super().dispatch(request, *args, **kwargs)
 
 
-class CarCreateView(LoginRequiredMixin, CreateView): # класс для создания записи
+class CarCreateView(LoginRequiredMixin, CreateView):
+    """
+    Класс для создания записи
+    """
     form_class = CarAddForm
     template_name = 'cars/car_create.html'
     success_url = reverse_lazy('index')
@@ -65,7 +77,10 @@ class CarCreateView(LoginRequiredMixin, CreateView): # класс для соз�
         return super().form_valid(form)  # вызываем базовый метод класса
 
 
-class CarUpdateView(UpdateView):  # класс для обновления записи
+class CarUpdateView(UpdateView):
+    """
+    Класс для обновления записи
+    """
     model = Car
     fields = ['make', 'model', 'year', 'description']
     success_url = reverse_lazy('index')

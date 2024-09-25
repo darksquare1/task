@@ -6,12 +6,18 @@ from datetime import datetime
 
 
 class CommentForm(forms.ModelForm):
+    """
+    Форма для комментариев
+    """
     class Meta:
         model = Comment
         fields = ['content']
 
 
 class CarAddForm(forms.ModelForm):
+    """
+    Форма для добавления машины
+    """
     class Meta:
         model = Car
         fields = ['make', 'model', 'year', 'description']

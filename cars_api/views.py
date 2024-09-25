@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.response import Response
 
@@ -22,11 +21,11 @@ class RetrieveUpdateDestroyCarView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Car.objects.all()
 
     def put(self, request, *args, **kwargs):
-        if request.user != self.get_object().owner: # если запрос делает не владелец записи, то отвечаем запретом
+        if request.user != self.get_object().owner:  # если запрос делает не владелец записи, то отвечаем запретом
             return Response({'detail': 'Вы не создатель данной записи'}, status=403)
         return super().put(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
-        if request.user != self.get_object().owner: # если запрос делает не владелец записи, то отвечаем запретом
+        if request.user != self.get_object().owner:  # если запрос делает не владелец записи, то отвечаем запретом
             return Response({'detail': 'Вы не создатель данной записи'}, status=403)
         return super().delete(request, *args, **kwargs)

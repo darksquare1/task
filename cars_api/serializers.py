@@ -6,4 +6,3 @@ class CarSerializer(serializers.ModelSerializer):
     class Meta:
         model = Car
         fields = ['make', 'model', 'year', 'description']
-
