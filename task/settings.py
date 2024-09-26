@@ -39,12 +39,19 @@ INSTALLED_APPS = [
     'cars.apps.CarsConfig',
     'accounts.apps.AccountsConfig',
     'cars_api.apps.CarsApiConfig',
+    'drf_spectacular',
 ]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
-    ]
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+SPECTACULAR_SETTINGS = {
+    "TITLE": "CARS API",
+    "DESCRIPTION": "simple API for cars",
+    "VERSION": "1.0.0",
 }
 
 MIDDLEWARE = [

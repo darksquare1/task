@@ -1,0 +1,322 @@
+openapi: 3.0.3
+info:
+  title: CARS API
+  version: 1.0.0
+  description: simple API for cars
+paths:
+  /accounts/api/login/:
+    post:
+      operationId: accounts_api_login_create
+      description: Класс для авторизации пользователя по апи
+      tags:
+      - accounts
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /accounts/api/logout/:
+    post:
+      operationId: accounts_api_logout_create
+      description: Класс для выхода из аккаунта через апи
+      tags:
+      - accounts
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /accounts/api/signup/:
+    post:
+      operationId: accounts_api_signup_create
+      description: Класс для создания нового пользователя по api
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+        required: true
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRegister'
+          description: ''
+  /api/cars/:
+    get:
+      operationId: api_cars_list
+      description: Представление для отображения машин в json по get запросу
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Car'
+          description: ''
+  /api/cars/{id}/:
+    get:
+      operationId: api_cars_retrieve
+      description: Представление для получения конкретной машины, обновления и удаления
+        (get, put, delete) соответственно
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Car'
+          description: ''
+    put:
+      operationId: api_cars_update
+      description: Представление для получения конкретной машины, обновления и удаления
+        (get, put, delete) соответственно
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Car'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Car'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Car'
+        required: true
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Car'
+          description: ''
+    patch:
+      operationId: api_cars_partial_update
+      description: Представление для получения конкретной машины, обновления и удаления
+        (get, put, delete) соответственно
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCar'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCar'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCar'
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Car'
+          description: ''
+    delete:
+      operationId: api_cars_destroy
+      description: Представление для получения конкретной машины, обновления и удаления
+        (get, put, delete) соответственно
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/cars/{id}/comments/:
+    get:
+      operationId: api_cars_comments_list
+      description: Класс для просмотра и добавления комментариев по апи
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+          description: ''
+    post:
+      operationId: api_cars_comments_create
+      description: Класс для просмотра и добавления комментариев по апи
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Comment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Comment'
+        required: true
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+          description: ''
+components:
+  schemas:
+    Car:
+      type: object
+      properties:
+        make:
+          type: string
+          title: Марка
+          maxLength: 100
+        model:
+          type: string
+          title: Модель
+          maxLength: 100
+        year:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          nullable: true
+          title: Год выпуска
+        description:
+          type: string
+          title: Описание
+      required:
+      - description
+      - make
+      - model
+    Comment:
+      type: object
+      properties:
+        content:
+          type: string
+          title: Содержание комментария
+      required:
+      - content
+    PatchedCar:
+      type: object
+      properties:
+        make:
+          type: string
+          title: Марка
+          maxLength: 100
+        model:
+          type: string
+          title: Модель
+          maxLength: 100
+        year:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          nullable: true
+          title: Год выпуска
+        description:
+          type: string
+          title: Описание
+    UserRegister:
+      type: object
+      description: Сериализатор, нужный для создания нового пользователя
+      properties:
+        username:
+          type: string
+          title: Имя пользователя
+          description: Обязательное поле. Не более 150 символов. Только буквы, цифры
+            и символы @/./+/-/_.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        password:
+          type: string
+          writeOnly: true
+        password2:
+          type: string
+          writeOnly: true
+      required:
+      - password
+      - password2
+      - username
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
